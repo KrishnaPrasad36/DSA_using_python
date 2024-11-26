@@ -9,37 +9,45 @@ class DLL:
         self.start=None
 
     def is_empty(self):
-        self.start=None    
+        return self.start==None    
 
     def insert_at_start(self,data):
         
         n=node(None,data,self.start)
         if not self.is_empty():
-            self.start.prev=n
-        self.start=n    
+            self.start=n
+        else:
+
+            self.start=node(None,data,None)    
 
     def insert_at_last(self,data):
+        
 
         if not self.is_empty():
             temp=self.start
             while temp.next is not None:
                 temp=temp.next
-            n=node(self,temp.prev,data,None)
+            temp.next=node(temp,data,None)
         else:
-            self.start=n
-    def search(self,data):
+            self.start=node(None,data,None)
+    def search_at(self,data):
         temp=self.start
-        while temp.next!=None:
+        while temp.next is not None:
             if temp.item==data:
                 return temp
-            else:
-                return None
+            temp=temp.next
+        
+            return None
+            
     def insert_after(self,temp,data):
-        if temp.next!=None:
-            n=node(self,temp,data,temp.next)
-            temp.next=n
-        else:
-            self.start.next=n   
+        if temp is not None:
+            n=node(temp,data,temp.next)
+            if temp.next is not None:
+                temp.next.prev=n
+            temp.next=n 
+       
+
+          
     def delete_first(self):
         temp=self.start
         if temp.prev==None:
@@ -49,9 +57,19 @@ class DLL:
         else:
             return None
 
-            
+    def print_list(self):
+        temp=self.start
+        while temp is not None:
+            print(temp.item,end=" ")
+            temp=temp.next       
                      
-
+list=DLL()
+list.insert_at_start(20)
+list.insert_at_start(10)
+list.insert_after(list.search_at(30),50)
+list.insert_at_last(30)
+list.insert_at_last(40)
+list.print_list()
 
 
 
